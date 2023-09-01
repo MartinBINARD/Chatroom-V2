@@ -1,8 +1,14 @@
+@use '../../../styles/variables' as v;
+
 .settings {
+  display: flex;
+  justify-content: space-around;
   position: fixed;
   border: 2px solid red;
+  width: 400px;
   top: 0;
   right: 0;
+  height: v.$setting-height;
   &-form {
     display: flex;
     flex-direction: column;

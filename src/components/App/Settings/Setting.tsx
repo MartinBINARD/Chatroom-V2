@@ -3,6 +3,10 @@ import './Setting.scss';
 function Settings() {
   return (
     <aside className="settings">
+      <button type="button" className="settings-close">
+        Fermer
+      </button>
+
       <form className="settings-form">
         <input
           type="email"
@@ -16,10 +20,10 @@ function Settings() {
           placeholder="Mot de passe"
           aria-label="Mot de passe"
         />
+        <button type="submit" className="settings-form-button">
+          Envoyer
+        </button>
       </form>
-      <button type="submit" className="settings-form-button">
-        Envoyer
-      </button>
     </aside>
   );
 }
