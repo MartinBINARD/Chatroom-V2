@@ -1,6 +1,7 @@
 @use 'sass:color';
 
 $color: #3e7fb7;
+$color-secondary: #5300ff;
 $color-dark: color.scale($color, $lightness: -50%);
 $color-light: color.scale($color, $lightness: 70%);
 
@@ -10,4 +11,4 @@ $color-lightest: #fff;
 $gutter: 1rem;
 
 $form-height: 4rem;
-$setting-height: 10rem;
+$setting-height: 12rem;

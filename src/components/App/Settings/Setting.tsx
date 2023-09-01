@@ -3,8 +3,8 @@ import './Setting.scss';
 function Settings() {
   return (
     <aside className="settings">
-      <button type="button" className="settings-close">
-        Fermer
+      <button type="button" className="settings-close-button">
+        X
       </button>
 
       <form className="settings-form">
