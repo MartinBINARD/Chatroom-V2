@@ -1,0 +1,10 @@
+.settings {
+  position: fixed;
+  border: 2px solid red;
+  top: 0;
+  right: 0;
+  &-form {
+    display: flex;
+    flex-direction: column;
+  }
+}
