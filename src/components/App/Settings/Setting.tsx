@@ -26,6 +26,7 @@ function Settings() {
           </button>
         </form>
       </aside>
+
       <aside className="open-settings active">
         <button type="button" className="open-settings-button">
           +
