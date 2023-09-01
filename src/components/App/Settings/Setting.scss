@@ -1,7 +1,36 @@
 @use '../../../styles/variables' as v;
 
+.open-settings {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  &-button {
+    margin: v.$gutter;
+  }
+}
+
+.settings-close-button,
+.settings-form-button,
+.open-settings-button {
+  cursor: pointer;
+  transition: color 0.3s linear;
+}
+.settings-close-button,
+.open-settings-button {
+  border-radius: 50%;
+  height: 3rem;
+  width: 3rem;
+  color: v.$color-secondary;
+  font-size: 1.5rem;
+  font-weight: 600;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
 .settings {
-  display: flex;
+  display: none;
   justify-content: space-between;
   align-items: flex-start;
   position: fixed;
@@ -11,21 +40,6 @@
   right: 0;
   height: v.$setting-height;
   padding: v.$gutter;
-  &-close-button,
-  &-form-button {
-    cursor: pointer;
-  }
-  &-close-button {
-    border-radius: 50%;
-    height: 3rem;
-    width: 3rem;
-    color: v.$color-secondary;
-    font-size: 1.5rem;
-    font-weight: 600;
-    &:hover {
-      transform: scale(1.1);
-    }
-  }
   &-form {
     display: flex;
     flex-direction: column;
@@ -39,10 +53,13 @@
       background-color: v.$color-secondary;
       color: v.$color-lightest;
       font-weight: 700;
-      transition: color 0.3s linear;
       &:hover {
         filter: brightness(1.2);
       }
     }
   }
+}
+
+.active {
+  display: flex;
 }
