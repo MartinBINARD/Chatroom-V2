@@ -8,4 +8,6 @@ export interface Message {
 
 export interface Settings {
   isOpen: TisOpen;
+  email: string;
+  password: string;
 }
