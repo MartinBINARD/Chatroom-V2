@@ -30,11 +30,11 @@
 }
 
 .settings {
+  background-color: v.$color-dark;
   display: none;
   justify-content: space-between;
   align-items: flex-start;
   position: fixed;
-  border: 2px solid red;
   width: 350px;
   top: 0;
   right: 0;

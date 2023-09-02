@@ -1,10 +1,26 @@
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../../../hooks/redux';
+
+import { toggleSettings } from '../../../store/reducers/settings';
 import './Setting.scss';
 
 function Settings() {
+  const toggle = useAppSelector((state) => state.settings.isOpen);
+
+  const dispatch = useDispatch();
+
+  function handleToggle() {
+    dispatch(toggleSettings(toggle));
+  }
+
   return (
     <>
-      <aside className="settings">
-        <button type="button" className="settings-close-button">
+      <aside className={`settings ${toggle && 'active'}`}>
+        <button
+          type="button"
+          className="settings-close-button"
+          onClick={handleToggle}
+        >
           X
         </button>
 
@@ -27,8 +43,12 @@ function Settings() {
         </form>
       </aside>
 
-      <aside className="open-settings active">
-        <button type="button" className="open-settings-button">
+      <aside className={`open-settings ${!toggle && 'active'}`}>
+        <button
+          type="button"
+          className="open-settings-button"
+          onClick={handleToggle}
+        >
           +
         </button>
       </aside>

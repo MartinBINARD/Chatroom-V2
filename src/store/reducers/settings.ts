@@ -20,7 +20,7 @@ export const toggleSettings = createAction<TisOpen>('settings/toggle-settings');
 
 const settingsReducer = createReducer(initialStateIsOpen, (builder) => {
   builder.addCase(toggleSettings, (state, action) => {
-    state.isOpen = action.payload;
+    state.isOpen = !state.isOpen;
   });
 });
 
