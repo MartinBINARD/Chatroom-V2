@@ -2,7 +2,7 @@ import { useAppSelector } from '../../hooks/redux';
 
 import Form from './Form/Form';
 import Messages from './Messages/Messages';
-import Settings from './Settings/Setting';
+import Settings from './Settings/Settings';
 import FlashMessage from './FlashMessage/FlashMessage';
 
 import './App.scss';

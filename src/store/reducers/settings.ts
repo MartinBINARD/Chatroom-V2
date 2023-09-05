@@ -32,17 +32,18 @@ export const toggleSettings = createAction('settings/toggle');
     - thunk.fulfilled : la promesse est résolue
     - thunk.rejected : la promesse a échoué
 */
-export const login = createAsyncThunk('settings/login', async () => {
-  const { data } = await axios.post('http://localhost:3001/login', {
-    email: 'bouclierman@herocorp.io',
-    password: 'jennifer',
-  });
+export const login = createAsyncThunk(
+  'settings/login',
+  async (formData: FormData) => {
+    const objData = Object.fromEntries(formData.entries());
+    const { data } = await axios.post('http://localhost:3001/login', objData);
 
-  console.log(data);
-  // ici, je retourne mon résultat qui sera automatiquement
-  // ajouté au payload de mon action `login.fulfilled`
-  return data;
-});
+    console.log(data);
+    // ici, je retourne mon résultat qui sera automatiquement
+    // ajouté au payload de mon action `login.fulfilled`
+    return data;
+  }
+);
 
 const settingsReducer = createReducer(initialState, (builder) => {
   builder

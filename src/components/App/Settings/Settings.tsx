@@ -1,18 +1,18 @@
 import classNames from 'classnames';
-import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
 import { login, toggleSettings } from '../../../store/reducers/settings';
 
 import Input from '../Input/Input';
 import Icon from '../../ui/Icon/Icon';
 
-import './Setting.scss';
+import './Settings.scss';
 
 function Settings() {
   const isOpen = useAppSelector((state) => state.settings.isOpen);
+  const isLoading = useAppSelector((state) => state.settings.isLoading);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleClick = () => {
     dispatch(toggleSettings());
@@ -24,12 +24,12 @@ function Settings() {
     const form = event.currentTarget;
     const formData = new FormData(form);
 
-    const formJson = Object.fromEntries(formData.entries());
+    // const formJson = Object.fromEntries(formData.entries());
     // console.log(formJson);
     // je veux dispatcher une action pour me connecter
     // → appel API : est-on dans la BDD ?
     // → « action asynchrone » = thunk
-    dispatch(login());
+    dispatch(login(formData));
   };
 
   return (
@@ -45,21 +45,21 @@ function Settings() {
 
       <form className="settings-form" onSubmit={handleSubmit}>
         <Input
-          name="mail"
+          name="email"
           type="email"
           className="settings-input"
           placeholder="Adresse E-mail"
           aria-label="Adresse E-mail"
         />
         <Input
-          name="pwd"
+          name="password"
           type="password"
           className="settings-input"
           placeholder="Mot de passe"
           aria-label="Mot de passe"
         />
-        <button type="submit" className="settings-button">
-          Se connecter
+        <button type="submit" className="settings-button" disabled={isLoading}>
+          {isLoading ? 'Chargement…' : 'Se connecter'}
         </button>
       </form>
     </aside>
