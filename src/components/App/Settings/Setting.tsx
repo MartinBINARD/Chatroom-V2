@@ -58,7 +58,11 @@ function Settings() {
 
     // je lis mes données de formulaire
     const formJson = Object.fromEntries(formData.entries());
-    console.log(formJson);
+    // console.log(formJson);
+    // je veux dispatcher une action pour me connecter
+    // → appel API : est-on dans la BDD ?
+    // → « action asynchrone » = thunk
+    dispatch(login());
   };
 
   return (
