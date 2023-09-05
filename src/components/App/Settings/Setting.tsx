@@ -46,6 +46,21 @@ function Settings() {
     dispatch(toggleSettings());
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    // on lit les données de formulaire
+    // https://react.dev/reference/react-dom/components/input#reading-the-input-values-when-submitting-a-form
+    // en TS, on utilise le `currentTarget` qui retourne le HTMLFormElement
+    // nécessaire pour `FormData`
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    // je lis mes données de formulaire
+    const formJson = Object.fromEntries(formData.entries());
+    console.log(formJson);
+  };
+
   return (
     /*
       classNames est une fonction
@@ -66,7 +81,7 @@ function Settings() {
         <Icon icon="plus" size="80%" />
       </button>
 
-      <form className="settings-form">
+      <form className="settings-form" onSubmit={handleSubmit}>
         <Input
           // prop OBLIGATOIRE
           name="mail"
