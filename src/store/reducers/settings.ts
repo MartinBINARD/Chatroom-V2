@@ -7,10 +7,16 @@ import axios from 'axios';
 
 interface SettingsState {
   isOpen: boolean;
+  isLoading: boolean;
+  pseudo: string | null;
+  message: string | null;
 }
 
 const initialState: SettingsState = {
   isOpen: true,
+  isLoading: false,
+  pseudo: null,
+  message: null,
 };
 
 export const toggleSettings = createAction('settings/toggle');
@@ -27,10 +33,12 @@ export const toggleSettings = createAction('settings/toggle');
 export const login = createAsyncThunk('settings/login', async () => {
   const { data } = await axios.post('http://localhost:3001/login', {
     email: 'bouclierman@herocorp.io',
-    password: 'jenifer',
+    password: 'jennifer',
   });
 
   console.log(data);
+  // ici, je retourne mon résultat qui sera automatiquement
+  // ajouté au payload de mon action `login.fulfilled`
   return data;
 });
 
@@ -41,16 +49,23 @@ const settingsReducer = createReducer(initialState, (builder) => {
     })
     .addCase(login.pending, (state, action) => {
       // console.log(action);
+      state.isLoading = true;
     })
     // la promesse est résolue
     .addCase(login.fulfilled, (state, action) => {
       console.log(action);
       // je récupère directement la réponse de l'API dans le payload de l'action
+      state.isLoading = false;
+      // j'enregiste la réponse dans mon state
+      state.pseudo = action.payload.pseudo;
     })
     // la promesse est rejetée
     .addCase(login.rejected, (state, action) => {
       console.log(action);
       // je récupère l'erreur directement dans `action.error`
+      state.isLoading = false;
+      // je gère les erreurs
+      state.message = action.error.code || 'UNKNOWN_ERROR';
     });
 });
 
