@@ -1,17 +1,17 @@
 import { createAction, createReducer } from '@reduxjs/toolkit';
 
-import { Settings, TisOpen } from '../../@types';
+interface SettingsState {
+  isOpen: boolean;
+}
 
-const initialState: Settings = {
+const initialState: SettingsState = {
   isOpen: false,
-  email: '',
-  password: '',
 };
 
-export const toggleSettings = createAction<TisOpen>('settings/toggle-settings');
+export const toggleSettings = createAction('settings/toggle');
 
 const settingsReducer = createReducer(initialState, (builder) => {
-  builder.addCase(toggleSettings, (state, action) => {
+  builder.addCase(toggleSettings, (state) => {
     state.isOpen = !state.isOpen;
   });
 });
