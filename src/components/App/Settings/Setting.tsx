@@ -4,9 +4,29 @@ import { useAppSelector } from '../../../hooks/redux';
 
 import { toggleSettings } from '../../../store/reducers/settings';
 
+import Input from '../Input/Input';
 import Icon from '../../ui/Icon/Icon';
 
 import './Setting.scss';
+
+/*
+  Pour gérer le formulaire de connexion,
+  il faut contrôler nos 2 champs :
+
+    - variable d'état LOCAL → `useState`
+    - lire cette variable et l'affichage → `value`
+    - modifier cette valeur → `onChange`
+
+  nous avons avons aussi besoin d'identifier nos champs
+  pour facilement pouvoir récupérer leurs valeurs à la soumission
+  → `name`
+
+  Tout les reste est « optionnel » (className, placeholder, type…).
+
+  Au lieu de répéter la même chose pour gérer nos champs,
+  on peut créer un composant dont le seul rôle sera de
+  contrôler le champ.
+*/
 
 function Settings() {
   /*
@@ -47,13 +67,17 @@ function Settings() {
       </button>
 
       <form className="settings-form">
-        <input
+        <Input
+          // prop OBLIGATOIRE
+          name="mail"
+          // props OPTIONNELLES
           type="email"
           className="settings-input"
           placeholder="Adresse E-mail"
           aria-label="Adresse E-mail"
         />
-        <input
+        <Input
+          name="pwd"
           type="password"
           className="settings-input"
           placeholder="Mot de passe"
