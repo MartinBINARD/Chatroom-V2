@@ -13,6 +13,7 @@ function Form() {
   const [currentMessage, setCurrentMessage] = useState('');
 
   const messages = useAppSelector((state) => state.chat.messages);
+  const pseudo = useAppSelector((state) => state.settings.pseudo);
 
   const dispatch = useDispatch();
 
@@ -29,7 +30,7 @@ function Form() {
       dispatch(
         addMessage({
           id: getNextId(messages),
-          author: 'Super Chat', // en dur pour le moment
+          author: pseudo ?? 'Anne Onyme', // en dur pour le moment
           content: currentMessage,
         })
       );

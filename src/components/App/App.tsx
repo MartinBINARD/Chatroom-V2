@@ -1,3 +1,5 @@
+import { useAppSelector } from '../../hooks/redux';
+
 import Form from './Form/Form';
 import Messages from './Messages/Messages';
 import Settings from './Settings/Setting';
@@ -6,11 +8,15 @@ import FlashMessage from './FlashMessage/FlashMessage';
 import './App.scss';
 
 function App() {
+  const flash = useAppSelector((state) => state.settings.flash);
+
   return (
     <div className="App">
-      <FlashMessage type="error" duration={1000}>
-        Mon super Message
-      </FlashMessage>
+      {flash && (
+        <FlashMessage type={flash.type} duration={flash.duration ?? 3000}>
+          {flash.children}
+        </FlashMessage>
+      )}
       <Settings />
       <Messages />
       <Form />

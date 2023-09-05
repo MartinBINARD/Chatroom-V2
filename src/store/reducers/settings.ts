@@ -5,18 +5,20 @@ import {
 } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+import { Flash } from '../../@types';
+
 interface SettingsState {
   isOpen: boolean;
   isLoading: boolean;
   pseudo: string | null;
-  message: string | null;
+  flash: Flash | null;
 }
 
 const initialState: SettingsState = {
   isOpen: true,
   isLoading: false,
   pseudo: null,
-  message: null,
+  flash: null,
 };
 
 export const toggleSettings = createAction('settings/toggle');
@@ -50,14 +52,21 @@ const settingsReducer = createReducer(initialState, (builder) => {
     .addCase(login.pending, (state, action) => {
       // console.log(action);
       state.isLoading = true;
+      // à chaque appel API, je ré-initialise mes messages d'erreurs
+      state.flash = null;
     })
     // la promesse est résolue
     .addCase(login.fulfilled, (state, action) => {
       console.log(action);
       // je récupère directement la réponse de l'API dans le payload de l'action
       state.isLoading = false;
-      // j'enregiste la réponse dans mon state
+      // j'enregistre la réponse dans mon state
       state.pseudo = action.payload.pseudo;
+      state.flash = {
+        type: 'success',
+        duration: 2000,
+        children: `Bienvenue ${action.payload.pseudo} !`,
+      };
     })
     // la promesse est rejetée
     .addCase(login.rejected, (state, action) => {
@@ -65,7 +74,11 @@ const settingsReducer = createReducer(initialState, (builder) => {
       // je récupère l'erreur directement dans `action.error`
       state.isLoading = false;
       // je gère les erreurs
-      state.message = action.error.code || 'UNKNOWN_ERROR';
+      state.flash = {
+        type: 'error',
+        // duration: 5000,
+        children: action.error.code || 'UNKNOWN_ERROR',
+      };
     });
 });
 
