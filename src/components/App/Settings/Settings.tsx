@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
+import useUpdateEffect from '../../../hooks/useUpdateEffect';
 
 import {
   login,
@@ -55,14 +55,18 @@ function Settings() {
   //   audioElement.current = new Audio(whooshSound);
   // }, []);
 
-  useEffect(() => {
-    // lire le son à chaque fois que `messages` est modifié
-    // if (audioElement.current) {
-    //   //   je remets le son à 0 s
-    //   audioElement.current.currentTime = 0;
-    //   //   je lance le son
-    //   audioElement.current.play();
-    // }
+  // useEffect(() => {
+  //   // lire le son à chaque fois que `messages` est modifié
+  //   // if (audioElement.current) {
+  //   //   //   je remets le son à 0 s
+  //   //   audioElement.current.currentTime = 0;
+  //   //   //   je lance le son
+  //   //   audioElement.current.play();
+  //   // }
+  //   playSound();
+  // }, [isOpen, playSound]);
+
+  useUpdateEffect(() => {
     playSound();
   }, [isOpen, playSound]);
 

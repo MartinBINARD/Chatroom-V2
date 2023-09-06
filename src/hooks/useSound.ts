@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 /*
   Objectif :
@@ -26,14 +26,22 @@ function useSound(soundURL: string) {
     audioElement.current = new Audio(soundURL);
   }, [soundURL]);
 
-  const playSound = () => {
+  /*
+    À chaque fois qu'un composant qui appelle ce hook
+    est mis à jour, on recrée cette fonction.
+
+    Sauf que notre fonction est toujours la même entre les différents rendus.
+    Pour optimiser notre application, je la met en cache !
+    → `useCallback`
+  */
+  const playSound = useCallback(() => {
     if (audioElement.current) {
       //   je remets le son à 0 s
       audioElement.current.currentTime = 0;
       //   je lance le son
       audioElement.current.play();
     }
-  };
+  }, []);
 
   return playSound;
 }

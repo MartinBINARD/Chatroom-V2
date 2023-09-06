@@ -1,6 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { useAppSelector } from '../../../hooks/redux';
 
+import useUpdateEffect from '../../../hooks/useUpdateEffect';
+import useSound from '../../../hooks/useSound';
+
 import {
   subscribeToNewMessage,
   unsubscribeToNewMessage,
@@ -11,7 +14,6 @@ import MessagesItem from './MessagesItem';
 import notificationSound from '../../../assets/sounds/notification.mp3';
 
 import './Messages.scss';
-import useSound from '../../../hooks/useSound';
 
 function Messages() {
   const messages = useAppSelector((state) => state.chat.messages);
@@ -54,7 +56,7 @@ function Messages() {
     // }
   }, [messages]);
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     // lire le son à chaque fois que `messages` est modifié
     // if (audioElement.current) {
     //   //   je remets le son à 0 s
