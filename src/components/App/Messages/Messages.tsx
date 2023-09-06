@@ -41,7 +41,7 @@ function Messages() {
   useEffect(() => {
     messagesRef.current?.scrollTo(0, messagesRef.current?.scrollHeight);
 
-    // lire le son
+    // lire le son à chaque fois que `messages` est modifié
     if (audioElement.current) {
       //   je remets le son à 0 s
       audioElement.current.currentTime = 0;

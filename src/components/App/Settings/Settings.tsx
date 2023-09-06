@@ -1,10 +1,17 @@
+import { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 
-import { login, toggleSettings } from '../../../store/reducers/settings';
+import {
+  login,
+  logout,
+  toggleSettings,
+} from '../../../store/reducers/settings';
 
 import Input from '../Input/Input';
 import Icon from '../../ui/Icon/Icon';
+
+import whooshSound from '../../../assets/sounds/whoosh.mp3';
 
 import './Settings.scss';
 
@@ -14,6 +21,9 @@ function Settings() {
   const pseudo = useAppSelector((state) => state.settings.pseudo);
 
   const dispatch = useAppDispatch();
+
+  // ajout d'une référence pour gérer un élément audio
+  const audioElement = useRef<HTMLAudioElement | null>(null);
 
   const handleClick = () => {
     dispatch(toggleSettings());
@@ -34,8 +44,23 @@ function Settings() {
   };
 
   const handleLogout = () => {
-    console.log('logout');
+    dispatch(logout());
   };
+
+  useEffect(() => {
+    // j'attache mon élément audio
+    audioElement.current = new Audio(whooshSound);
+  }, []);
+
+  useEffect(() => {
+    // lire le son à chaque fois que `messages` est modifié
+    if (audioElement.current) {
+      //   je remets le son à 0 s
+      audioElement.current.currentTime = 0;
+      //   je lance le son
+      audioElement.current.play();
+    }
+  }, [isOpen]);
 
   return (
     <aside className={classNames('settings', { 'settings--open': isOpen })}>
