@@ -22,6 +22,7 @@ const initialState: SettingsState = {
 };
 
 export const toggleSettings = createAction('settings/toggle');
+export const logout = createAction('settings/logout');
 
 /*
   « Action asynchrone » = thunk → createAsyncThunk(name, asyncFunction)
@@ -34,14 +35,16 @@ export const toggleSettings = createAction('settings/toggle');
 */
 export const login = createAsyncThunk(
   'settings/login',
-  async (formData: FormData) => {
+  async (formData: FormData, thunkAPI) => {
+    console.log(thunkAPI);
+    console.log(thunkAPI.getState());
+
     const objData = Object.fromEntries(formData.entries());
     const { data } = await axios.post('http://localhost:3001/login', objData);
 
-    console.log(data);
     // ici, je retourne mon résultat qui sera automatiquement
     // ajouté au payload de mon action `login.fulfilled`
-    return data;
+    return data as { pseudo: string };
   }
 );
 
@@ -49,6 +52,9 @@ const settingsReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(toggleSettings, (state) => {
       state.isOpen = !state.isOpen;
+    })
+    .addCase(logout, (state) => {
+      state.pseudo = null;
     })
     .addCase(login.pending, (state, action) => {
       // console.log(action);
@@ -68,6 +74,7 @@ const settingsReducer = createReducer(initialState, (builder) => {
         duration: 2000,
         children: `Bienvenue ${action.payload.pseudo} !`,
       };
+      state.isOpen = false;
     })
     // la promesse est rejetée
     .addCase(login.rejected, (state, action) => {

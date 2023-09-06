@@ -11,6 +11,7 @@ import './Settings.scss';
 function Settings() {
   const isOpen = useAppSelector((state) => state.settings.isOpen);
   const isLoading = useAppSelector((state) => state.settings.isLoading);
+  const pseudo = useAppSelector((state) => state.settings.pseudo);
 
   const dispatch = useAppDispatch();
 
@@ -32,6 +33,10 @@ function Settings() {
     dispatch(login(formData));
   };
 
+  const handleLogout = () => {
+    console.log('logout');
+  };
+
   return (
     <aside className={classNames('settings', { 'settings--open': isOpen })}>
       <button
@@ -43,25 +48,49 @@ function Settings() {
         <Icon icon="plus" size="80%" />
       </button>
 
-      <form className="settings-form" onSubmit={handleSubmit}>
-        <Input
-          name="email"
-          type="email"
-          className="settings-input"
-          placeholder="Adresse E-mail"
-          aria-label="Adresse E-mail"
-        />
-        <Input
-          name="password"
-          type="password"
-          className="settings-input"
-          placeholder="Mot de passe"
-          aria-label="Mot de passe"
-        />
-        <button type="submit" className="settings-button" disabled={isLoading}>
-          {isLoading ? 'Chargement…' : 'Se connecter'}
-        </button>
-      </form>
+      {!pseudo && (
+        <form className="settings-form" onSubmit={handleSubmit}>
+          <Input
+            name="email"
+            type="email"
+            className="settings-input"
+            placeholder="Adresse E-mail"
+            aria-label="Adresse E-mail"
+          />
+          <Input
+            name="password"
+            type="password"
+            className="settings-input"
+            placeholder="Mot de passe"
+            aria-label="Mot de passe"
+          />
+          <button
+            type="submit"
+            className="settings-button"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Chargement…' : 'Se connecter'}
+          </button>
+        </form>
+      )}
+
+      {pseudo && (
+        // j'ai un pseudo, mon utilisateur est connecté
+        <div className="settings-logged">
+          <p>
+            Vous êtes connecté en tant que
+            <strong>{pseudo}</strong>
+          </p>
+
+          <button
+            type="button"
+            className="settings-button"
+            onClick={handleLogout}
+          >
+            Se déconnecter
+          </button>
+        </div>
+      )}
     </aside>
   );
 }
