@@ -11,6 +11,7 @@ import {
 import Input from '../Input/Input';
 import Icon from '../../ui/Icon/Icon';
 
+import useSound from '../../../hooks/useSound';
 import whooshSound from '../../../assets/sounds/whoosh.mp3';
 
 import './Settings.scss';
@@ -20,10 +21,12 @@ function Settings() {
   const isLoading = useAppSelector((state) => state.settings.isLoading);
   const pseudo = useAppSelector((state) => state.settings.pseudo);
 
+  const playSound = useSound(whooshSound);
+
   const dispatch = useAppDispatch();
 
   // ajout d'une référence pour gérer un élément audio
-  const audioElement = useRef<HTMLAudioElement | null>(null);
+  // const audioElement = useRef<HTMLAudioElement | null>(null);
 
   const handleClick = () => {
     dispatch(toggleSettings());
@@ -47,20 +50,21 @@ function Settings() {
     dispatch(logout());
   };
 
-  useEffect(() => {
-    // j'attache mon élément audio
-    audioElement.current = new Audio(whooshSound);
-  }, []);
+  // useEffect(() => {
+  //   // j'attache mon élément audio
+  //   audioElement.current = new Audio(whooshSound);
+  // }, []);
 
   useEffect(() => {
     // lire le son à chaque fois que `messages` est modifié
-    if (audioElement.current) {
-      //   je remets le son à 0 s
-      audioElement.current.currentTime = 0;
-      //   je lance le son
-      audioElement.current.play();
-    }
-  }, [isOpen]);
+    // if (audioElement.current) {
+    //   //   je remets le son à 0 s
+    //   audioElement.current.currentTime = 0;
+    //   //   je lance le son
+    //   audioElement.current.play();
+    // }
+    playSound();
+  }, [isOpen, playSound]);
 
   return (
     <aside className={classNames('settings', { 'settings--open': isOpen })}>

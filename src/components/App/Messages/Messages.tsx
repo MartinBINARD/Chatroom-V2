@@ -11,6 +11,7 @@ import MessagesItem from './MessagesItem';
 import notificationSound from '../../../assets/sounds/notification.mp3';
 
 import './Messages.scss';
+import useSound from '../../../hooks/useSound';
 
 function Messages() {
   const messages = useAppSelector((state) => state.chat.messages);
@@ -18,11 +19,14 @@ function Messages() {
   const messagesRef = useRef<HTMLElement>(null);
 
   // ajout d'une référence pour gérer un élément audio
-  const audioElement = useRef<HTMLAudioElement | null>(null);
+  // const audioElement = useRef<HTMLAudioElement | null>(null);
+
+  // je fais appel à mon hook pour jouer un son
+  const playSound = useSound(notificationSound);
 
   useEffect(() => {
     // j'attache mon élément audio
-    audioElement.current = new Audio(notificationSound);
+    // audioElement.current = new Audio(notificationSound);
 
     // je veux écouter l'évènement `server_send_message`
     // au montage de mon composant
@@ -42,13 +46,24 @@ function Messages() {
     messagesRef.current?.scrollTo(0, messagesRef.current?.scrollHeight);
 
     // lire le son à chaque fois que `messages` est modifié
-    if (audioElement.current) {
-      //   je remets le son à 0 s
-      audioElement.current.currentTime = 0;
-      //   je lance le son
-      audioElement.current.play();
-    }
+    // if (audioElement.current) {
+    //   //   je remets le son à 0 s
+    //   audioElement.current.currentTime = 0;
+    //   //   je lance le son
+    //   audioElement.current.play();
+    // }
   }, [messages]);
+
+  useEffect(() => {
+    // lire le son à chaque fois que `messages` est modifié
+    // if (audioElement.current) {
+    //   //   je remets le son à 0 s
+    //   audioElement.current.currentTime = 0;
+    //   //   je lance le son
+    //   audioElement.current.play();
+    // }
+    playSound();
+  }, [messages, playSound]);
 
   return (
     <section className="messages" ref={messagesRef}>
