@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { useAppSelector } from '../../../hooks/redux';
 
 import { Message } from '../../../@types';
+import { getIsMine } from '../../../store/selectors/settings';
 
 function MessagesItem({ author, content }: Message) {
   // const pseudo = useAppSelector((state) => state.settings.pseudo);
@@ -9,7 +10,7 @@ function MessagesItem({ author, content }: Message) {
     Optimisation :
     avec ce code, à chaque fois que `pseudo` est mis à jour,
     TOUS LES MESSAGES sont re-rendus
-    
+
     on peut affiner notre sélecteur pour ne cibler que les messages
     qui doivent être re-rendus :
     seulement les messages qui avaient comme auteur le pseudo connecté
@@ -24,7 +25,7 @@ function MessagesItem({ author, content }: Message) {
   //   - les messages de Burt passent à `false`
   //   - tous les autres RESTENT à false
   // SEULS les messages de Burt DOIVENT être re-rendus
-  const isMine = useAppSelector((state) => state.settings.pseudo === author);
+  const isMine = useAppSelector(getIsMine(author));
 
   return (
     <article
