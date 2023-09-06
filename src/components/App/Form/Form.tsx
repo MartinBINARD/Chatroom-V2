@@ -36,7 +36,9 @@ function Form() {
       // C'est au serveur de contacter tous les clients inscrits
       // en disant : « j'ai un nouveau message »
       sendMessage({
-        id: 0, // l'ID sera ré-écrit au niveau du serveur
+        // l'ID sera ré-écrit au niveau du serveur
+        // pour TS, je lui envoie un faux ID
+        id: 42,
         author: pseudo ?? 'Anne Onyme',
         content: currentMessage.trim(),
       });

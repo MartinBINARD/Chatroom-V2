@@ -22,3 +22,8 @@ export const subscribeToNewMessage = () => {
     store.dispatch(addMessage(message));
   });
 };
+
+export const unsubscribeToNewMessage = () => {
+  // j'arrête d'écouter l'évènement 'server_send_message'
+  socket.off('server_send_message');
+};
