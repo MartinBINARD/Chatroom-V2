@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../hooks/redux';
 
-import { addMessage } from '../../../store/reducers/chat';
-import { getNextId } from '../../../store/selectors';
+import { sendMessage } from '../../../socket/chat';
 
 import Icon from '../../ui/Icon/Icon';
 
@@ -12,10 +10,7 @@ import './Form.scss';
 function Form() {
   const [currentMessage, setCurrentMessage] = useState('');
 
-  const messages = useAppSelector((state) => state.chat.messages);
   const pseudo = useAppSelector((state) => state.settings.pseudo);
-
-  const dispatch = useDispatch();
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -27,13 +22,24 @@ function Form() {
     event.preventDefault();
 
     if (currentMessage.trim()) {
-      dispatch(
-        addMessage({
-          id: getNextId(messages),
-          author: pseudo ?? 'Anne Onyme', // en dur pour le moment
-          content: currentMessage,
-        })
-      );
+      // dispatch(
+      //   addMessage({
+      //     id: getNextId(messages),
+      //     author: pseudo ?? 'Anne Onyme', // en dur pour le moment
+      //     content: currentMessage,
+      //   })
+      // );
+
+      // Au lieu de dispatcher une action pour modifier mon état,
+      // j'émets un évènement à mon serveur pour l'avertir
+      // d'un nouveau message.
+      // C'est au serveur de contacter tous les clients inscrits
+      // en disant : « j'ai un nouveau message »
+      sendMessage({
+        id: 0, // l'ID sera ré-écrit au niveau du serveur
+        author: pseudo ?? 'Anne Onyme',
+        content: currentMessage.trim(),
+      });
 
       setCurrentMessage('');
     }
